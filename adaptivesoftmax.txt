@@ -1,0 +1,18 @@
+How does it work ?
+
+For this section let's take as an example a vocabulary size of 200 000
+
+A softmax over hundred of thousands tokens is computionally very expensive. So instead of doing so, the words are first sorted by frequency, from the most frequent one to the least frequent one.
+
+Then cutoffs are chosen, let's take the example of 2 cuttofs : [2000, 20000]
+
+The first 2000 words will be put in the cluster 0
+the next 20000-2000 = 18000 words are put in cluster 1
+and finally the other words are put in the cluster 2
+
+If the word for which we're seeking is in the cluster 0, the adaptive softmax computes the probability for each of the 2000 words of the cluster 0 and for the two others clusters, with a simple softmax but only over 2002 elements. The cluster 0 contains the probability of the 2000 words and also the probability of the other clusters
+
+if the word is in one of the other cluster, let's call it i, it will compute the 2003 probabilities mentionned above, and the probability of each word in the cluster i, which means 18000+2002 = 20002 probabilities. 
+
+To compute the negative log loss we take the -log of the probability we're seeking for, if we note the probability of the cluster pc (=1 for cluster 0), and the probability of the word inside the cluster pw, the negative log loss will be computed by the simple operation -log(pc) + -log(pw)
+
