@@ -14,5 +14,7 @@ If the word for which we're seeking is in the cluster 0, the adaptive softmax co
 
 if the word is in one of the other cluster, let's call it i, it will compute the 2003 probabilities mentionned above, and the probability of each word in the cluster i, which means 18000+2002 = 20002 probabilities. 
 
+Note :
+
 To compute the negative log loss we take the -log of the probability we're seeking for, if we note the probability of the cluster pc (=1 for cluster 0), and the probability of the word inside the cluster pw, the negative log loss will be computed by the simple operation -log(pc) + -log(pw)
 
